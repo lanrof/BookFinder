@@ -1,0 +1,59 @@
+﻿<Window x:Class="BookFinder.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookFinder"
+        mc:Ignorable="d"
+        Title="Book Finder" Height="720" Width="800">
+    
+    <StackPanel Margin="20">
+        <TextBlock Text="Wpisz tytuł książki"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="tbxBookTitle" Text="{Binding BookTitle, Mode=TwoWay}" Grid.Column="0"/>
+            <Button x:Name="btnSearch" Click="btnSearch_Click" Grid.Column="1" Content="Szukaj" Width="100" Height="30"/>
+        </Grid>
+
+        <TextBlock Text="Lub numer ISBN13 w celu porównania ofert"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="tbxBookISBN13" Text="{Binding BookISBN13, Mode=TwoWay}" Grid.Column="0"/>
+            <Button x:Name="btnCompareBooksWithISBN" Click="btnCompareBooksWithISBN_Click" Grid.Column="1" Content="Szukaj" Width="100" Height="30"/>
+        </Grid>
+
+        <TextBlock Text="Wybierz pozycję z listy w celu wyszukania najkorzystniejszej oferty" Margin="0, 20, 0, 0"/>
+        <ProgressBar Minimum="0" Maximum="100" Height="10" IsIndeterminate="{Binding IsLoading, Mode=OneWay}" />
+        
+        <ListBox Name="lblVolumes" ItemsSource="{Binding VolumesInfo, Mode=TwoWay}" 
+                 HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 Height="500" SelectionChanged="lblVolumes_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Title}" FontSize="14" FontStyle="Oblique" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="1" Text="" Grid.ColumnSpan="2" Margin="0, 5, 0, 0">
+                            <Run Text="ISBN13: "/> 
+                            <Run Text="{Binding ISBN13, Mode=OneWay}"/>
+                        </TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </StackPanel>
+</Window>
